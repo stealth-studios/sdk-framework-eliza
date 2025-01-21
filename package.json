@@ -1,0 +1,39 @@
+{
+    "name": "@stealthstudios/sdk-framework-eliza",
+    "version": "1.0.0",
+    "description": "A framework for creating agents with StealthSDK using the Eliza agent framework",
+    "main": "dist/index.js",
+    "license": "MIT",
+    "type": "module",
+    "scripts": {
+        "build": "tsup",
+        "lint": "eslint --fix --quiet src/**/*.ts --config eslint.config.ts",
+        "format": "prettier --write src/**/*.ts",
+        "ci:prettier": "prettier --check src/**/*.ts",
+        "ci:tsc": "tsc --noEmit",
+        "prepack": "npm run build"
+    },
+    "dependencies": {
+        "@dmitryrechkin/json-schema-to-zod": "^1.0.0",
+        "@elizaos/core": "^0.1.8",
+        "@stealthstudios/sdk-core": "^1.0.0",
+        "zod": "^3.23.8"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.18.0",
+        "@types/node": "^22.10.7",
+        "eslint": "^9.18.0",
+        "eslint-plugin-unused-imports": "^4.1.4",
+        "jiti": "^2.4.2",
+        "prettier": "^3.4.2",
+        "tsup": "^8.3.5",
+        "typescript": "^5.7.3",
+        "typescript-eslint": "^8.20.0"
+    },
+    "engines": {
+        "node": ">=23.0.0"
+    },
+    "files": [
+        "dist"
+    ]
+}
