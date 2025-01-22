@@ -4,6 +4,7 @@ import {
     CacheManager,
     Clients,
     composeContext,
+    configureSettings,
     Content,
     DatabaseAdapter,
     DbCacheAdapter,
@@ -38,6 +39,13 @@ const MESSAGE_HANDLER_TEMPLATE = `# Action Examples
 
 # Knowledge
 {{knowledge}}
+
+# Room 
+Your Name: {{agentName}}
+Player Name: {{playerName}}
+
+## Participants
+{{participants}}
 
 # Task: Generate dialog and actions for the character {{agentName}}.
 About {{agentName}}:
@@ -88,7 +96,10 @@ interface ElizaCharacterOptions {
         name: string;
         description: string;
         similes: string[];
-        examples: ActionExample[][];
+        examples: {
+            user: string;
+            content: string;
+        }[][];
         parameters: FunctionParameter[];
     }[];
 }
@@ -179,7 +190,12 @@ interface ElizaFrameworkOptions {
     provider: ModelProviderUnion;
     model: string;
     apiKey: string;
+    elizaConfig: {
+        [key: string]: string | undefined;
+    };
 }
+
+let initialized = false;
 
 export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
     characters: ElizaCharacter[] = [];
@@ -208,7 +224,19 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
     }
 
     start() {
+        if (initialized) {
+            throw new Error(
+                "ElizaFramework already initialized once. Cannot run two instances of ElizaFramework.",
+            );
+        }
+
         this.options.adapter.init();
+        configureSettings({
+            [this.options.provider.toUpperCase() + "_API_KEY"]:
+                this.options.apiKey,
+            ...this.options.elizaConfig,
+        });
+        initialized = true;
     }
 
     validateCharacter(character: any) {
@@ -355,6 +383,13 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
         });
 
         for (const user of users) {
+            await agent.runtime.ensureConnection(
+                user.id as any,
+                roomId,
+                user.name,
+                user.name,
+                "direct",
+            );
             await db.addParticipant(user.id as any, roomId);
         }
 
@@ -497,6 +532,14 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
 
         for (const user of users) {
             if (!participants.includes(user.id as any)) {
+                await roomData.runtimeCharacterMap.runtime.ensureConnection(
+                    user.id as any,
+                    conversation.secret as any,
+                    user.name,
+                    user.name,
+                    "direct",
+                );
+
                 await db.addParticipant(
                     user.id as any,
                     conversation.secret as any,
@@ -531,14 +574,6 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
                 message: "User not found",
             };
         }
-
-        await runtime.ensureConnection(
-            playerId as any,
-            conversation.secret as any,
-            username,
-            username,
-            "direct",
-        );
 
         const messageId = stringToUuid(Date.now().toString());
 
@@ -575,7 +610,12 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
                 description: func.description,
                 similes: func.similes,
                 validate: async () => true,
-                examples: func.examples,
+                examples: func.examples.map((example) =>
+                    example.map((ex) => ({
+                        user: ex.user,
+                        content: { text: ex.content },
+                    })),
+                ),
                 parameters: func.parameters,
                 suppressInitialMessage: false,
                 handler: async (runtime, message, state, options, callback) => {
@@ -607,7 +647,7 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
                         parameters: Record<string, any>;
                     };
 
-                    callback({
+                    await callback({
                         action: func.name,
                         text: respObject.message,
                         data: respObject,
@@ -618,6 +658,10 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
             let state = await runtime.composeState(memory, {
                 agentName: roomData.runtimeCharacterMap.character.name,
                 message: memory.content.text,
+                participants: roomData.users
+                    .map((user) => `${user.name} (${user.id})`)
+                    .join("\n"),
+                playerName: username,
             });
 
             const context = composeContext({
@@ -685,9 +729,9 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
                     .map((r) => ({
                         name: r.action,
                         message: r.text,
-                        parameters: r.data,
+                        parameters: (r.data as any)?.parameters,
                     })),
-            } as any; // i am lazy - trust me when I say that this meets the type
+            } as any;
         }
     }
 }
