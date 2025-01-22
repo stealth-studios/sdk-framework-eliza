@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🤖 sdk-framework-eliza
+# 🧠 sdk-framework-eliza
 
 _An advanced framework for the Stealth SDK, providing a sophisticated interface for interactions through ai16z's Eliza framework._
 
