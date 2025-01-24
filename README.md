@@ -13,7 +13,7 @@ _An advanced framework for the Stealth SDK, providing a sophisticated interface 
 
 ## 📖 Documentation
 
-You may view the documentation for this library [here](https://google.com/docs/frameworks/eliza)!
+You may view the documentation for this library [here](https://docs.stealthsdk.com/frameworks/eliza)!
 
 ## 🤝 Contributing
 
