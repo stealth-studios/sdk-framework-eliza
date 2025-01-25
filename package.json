@@ -16,7 +16,7 @@
     "dependencies": {
         "@dmitryrechkin/json-schema-to-zod": "^1.0.0",
         "@elizaos/core": "^0.1.8",
-        "@stealthstudios/sdk-core": "^1.1.0",
+        "@stealthstudios/sdk-core": "^1.1.1",
         "@tavily/core": "^0.0.2",
         "sharp": "^0.33.5",
         "zod": "^3.24.1"
@@ -28,7 +28,7 @@
         "eslint-plugin-unused-imports": "^4.1.4",
         "jiti": "^2.4.2",
         "prettier": "^3.4.2",
-        "tsup": "^8.3.5",
+        "tsup": "^8.3.6",
         "typescript": "^5.7.3",
         "typescript-eslint": "^8.21.0"
     },

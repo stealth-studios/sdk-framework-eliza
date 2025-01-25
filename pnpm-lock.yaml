@@ -15,8 +15,8 @@ importers:
         specifier: ^0.1.8
         version: 0.1.8(@google-cloud/vertexai@1.9.2)(@langchain/core@0.3.32(openai@4.73.0(zod@3.24.1)))(axios@1.7.9)(react@19.0.0)(sswr@2.1.0(svelte@5.19.1))(svelte@5.19.1)(vue@3.5.13(typescript@5.7.3))
       '@stealthstudios/sdk-core':
-        specifier: ^1.1.0
-        version: 1.1.0(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@typescript-eslint/eslint-plugin@8.21.0(@typescript-eslint/parser@8.21.0(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.19.0(jiti@2.4.2))(react@19.0.0)
+        specifier: ^1.1.1
+        version: 1.1.1(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@typescript-eslint/eslint-plugin@8.21.0(@typescript-eslint/parser@8.21.0(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.19.0(jiti@2.4.2))(react@19.0.0)
       '@tavily/core':
         specifier: ^0.0.2
         version: 0.0.2
@@ -46,8 +46,8 @@ importers:
         specifier: ^3.4.2
         version: 3.4.2
       tsup:
-        specifier: ^8.3.5
-        version: 8.3.5(jiti@2.4.2)(postcss@8.5.1)(typescript@5.7.3)(yaml@2.7.0)
+        specifier: ^8.3.6
+        version: 8.3.6(jiti@2.4.2)(postcss@8.5.1)(typescript@5.7.3)(yaml@2.7.0)
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
@@ -778,8 +778,8 @@ packages:
     resolution: {integrity: sha512-5f293PX78gwE3NwcBNXf7+qc9OIB6lYsRpzGZts7eaN3aN9i23ysWewF76DOs74oARRP5LgNBMC7JCo9dIxM1Q==}
     engines: {node: '>=18'}
 
-  '@stealthstudios/sdk-core@1.1.0':
-    resolution: {integrity: sha512-6r+v4qbXtgAL/bR6BXX45nEsUTAt9qpc6YGBgE5cocs8vPv4vZZANhdg99d4fyb5u4HdKL8+WF1bFQ1LBNZ72w==}
+  '@stealthstudios/sdk-core@1.1.1':
+    resolution: {integrity: sha512-6+aeJSg3jCQVyjwZkrhCAx29qwMarE3ZkNFuCJlpdMgbwUI/GMS+otOrLS+cm4U9S5EdsbCs6HEkaySXckYJYA==}
     engines: {node: '>=23.0.0'}
 
   '@tavily/core@0.0.2':
@@ -2395,8 +2395,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tsup@8.3.5:
-    resolution: {integrity: sha512-Tunf6r6m6tnZsG9GYWndg0z8dEV7fD733VBFzFJ5Vcm1FtlXB8xBD/rtrBi2a3YKEV7hHtxiZtW5EAVADoe1pA==}
+  tsup@8.3.6:
+    resolution: {integrity: sha512-XkVtlDV/58S9Ye0JxUUTcrQk4S+EqlOHKzg6Roa62rdjL1nGWNUstG0xgI4vanHdfIpjP448J8vlN0oK6XOJ5g==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -3125,7 +3125,7 @@ snapshots:
   '@langchain/openai@0.3.17(@langchain/core@0.3.32(openai@4.73.0(zod@3.24.1)))':
     dependencies:
       '@langchain/core': 0.3.32(openai@4.73.0(zod@3.24.1))
-      js-tiktoken: 1.0.16
+      js-tiktoken: 1.0.15
       openai: 4.80.1(zod@3.24.1)
       zod: 3.24.1
       zod-to-json-schema: 3.24.1(zod@3.24.1)
@@ -3136,7 +3136,7 @@ snapshots:
   '@langchain/textsplitters@0.1.0(@langchain/core@0.3.32(openai@4.73.0(zod@3.24.1)))':
     dependencies:
       '@langchain/core': 0.3.32(openai@4.73.0(zod@3.24.1))
-      js-tiktoken: 1.0.16
+      js-tiktoken: 1.0.15
 
   '@msgpack/msgpack@3.0.0-beta2': {}
 
@@ -3226,7 +3226,7 @@ snapshots:
       '@scalar/openapi-types': 0.1.6
       '@unhead/schema': 1.11.18
 
-  '@stealthstudios/sdk-core@1.1.0(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@typescript-eslint/eslint-plugin@8.21.0(@typescript-eslint/parser@8.21.0(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.19.0(jiti@2.4.2))(react@19.0.0)':
+  '@stealthstudios/sdk-core@1.1.1(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@typescript-eslint/eslint-plugin@8.21.0(@typescript-eslint/parser@8.21.0(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.19.0(jiti@2.4.2))(react@19.0.0)':
     dependencies:
       '@fastify/autoload': 6.0.3
       '@fastify/cors': 10.0.2
@@ -4179,7 +4179,7 @@ snapshots:
       '@langchain/core': 0.3.32(openai@4.73.0(zod@3.24.1))
       '@langchain/openai': 0.3.17(@langchain/core@0.3.32(openai@4.73.0(zod@3.24.1)))
       '@langchain/textsplitters': 0.1.0(@langchain/core@0.3.32(openai@4.73.0(zod@3.24.1)))
-      js-tiktoken: 1.0.16
+      js-tiktoken: 1.0.15
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langsmith: 0.2.15(openai@4.73.0(zod@3.23.8))
@@ -4862,7 +4862,7 @@ snapshots:
   tslib@2.8.1:
     optional: true
 
-  tsup@8.3.5(jiti@2.4.2)(postcss@8.5.1)(typescript@5.7.3)(yaml@2.7.0):
+  tsup@8.3.6(jiti@2.4.2)(postcss@8.5.1)(typescript@5.7.3)(yaml@2.7.0):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.24.2)
       cac: 6.7.14
