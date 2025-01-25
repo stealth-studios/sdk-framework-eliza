@@ -5,9 +5,9 @@
 _An advanced framework for the Stealth SDK, providing a sophisticated interface for interactions through ai16z's Eliza framework._
 
 [![CI Status](https://github.com/stealth-studios/sdk-framework-eliza/actions/workflows/ci-ts.yaml/badge.svg)](https://github.com/stealth-studios/sdk-framework-eliza/actions/workflows/ci-ts.yaml)
-[![License](https://img.shields.io/github/license/stealth-studios/sdk-framework-eliza)](https://github.com/stealth-studios/sdk-framework-eliza/blob/main/LICENSE)
-[![npm version](https://img.shields.io/npm/v/@stealthstudios/sdk-framework-eliza)](https://www.npmjs.com/package/@stealthstudios/sdk-framework-eliza)
-[![npm downloads](https://img.shields.io/npm/dm/@stealthstudios/sdk-framework-eliza)](https://www.npmjs.com/package/@stealthstudios/sdk-framework-eliza)
+[![License](https://img.shields.io/github/license/stealth-studios/sdk-framework-eliza?)](https://github.com/stealth-studios/sdk-framework-eliza/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@stealthstudios/sdk-framework-eliza?)](https://www.npmjs.com/package/@stealthstudios/sdk-framework-eliza)
+[![npm downloads](https://img.shields.io/npm/dm/@stealthstudios/sdk-framework-eliza?)](https://www.npmjs.com/package/@stealthstudios/sdk-framework-eliza)
 
 </div>
 
