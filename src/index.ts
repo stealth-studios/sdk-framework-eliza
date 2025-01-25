@@ -548,6 +548,55 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
         }
     }
 
+    async setConversationCharacter(
+        conversation: ElizaConversation,
+        character: ElizaCharacter,
+    ): Promise<void> {
+        const roomData = this.roomMaps.get(conversation.secret as string);
+
+        if (!roomData) {
+            return;
+        }
+
+        const processedCharacter = new ProcessedElizaCharacterOptions(
+            character.name,
+            this.options.provider,
+            character.options,
+        );
+
+        roomData.runtimeCharacterMap.character = character;
+
+        let shouldStop = true;
+        for (const [, roomData] of this.roomMaps) {
+            if (
+                roomData.runtimeCharacterMap.character.hash === character.hash
+            ) {
+                shouldStop = false;
+                break;
+            }
+        }
+
+        if (shouldStop) {
+            await roomData.runtimeCharacterMap.runtime.stop();
+        }
+
+        const runtime = new AgentRuntime({
+            character: processedCharacter,
+            databaseAdapter: this.options.adapter,
+            token: this.options.apiKey,
+            modelProvider: this.options.provider as ModelProviderName,
+            cacheManager: new CacheManager(
+                new DbCacheAdapter(
+                    this.options.adapter,
+                    generatePersonalityHash(character.options) as any,
+                ),
+            ),
+        });
+
+        roomData.runtimeCharacterMap.runtime = runtime;
+        await roomData.runtimeCharacterMap.runtime.initialize();
+    }
+
     async sendToConversation(
         conversation: ElizaConversation,
         message: string,
