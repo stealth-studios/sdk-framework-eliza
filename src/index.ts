@@ -377,26 +377,17 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
             id,
             secret: roomId,
             character,
-            users,
+            users: [],
             persistenceToken,
             data: {},
         });
 
-        for (const user of users) {
-            await agent.runtime.ensureConnection(
-                user.id as any,
-                roomId,
-                user.name,
-                user.name,
-                "direct",
-            );
-            await db.addParticipant(user.id as any, roomId);
-        }
-
         this.roomMaps.set(roomId, {
-            users,
+            users: [],
             runtimeCharacterMap: agent,
         });
+
+        await this.setConversationUsers(conversation, users);
 
         return conversation;
     }
@@ -558,13 +549,15 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
             return;
         }
 
-        const processedCharacter = new ProcessedElizaCharacterOptions(
-            character.name,
-            this.options.provider,
-            character.options,
+        const charMap = this.runtimeCharacterMaps.get(
+            generatePersonalityHash(character.options),
         );
 
-        roomData.runtimeCharacterMap.character = character;
+        if (!charMap) {
+            throw new Error(
+                "Character not found when setting conversation character",
+            );
+        }
 
         let shouldStop = true;
         for (const [, roomData] of this.roomMaps) {
@@ -580,21 +573,7 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
             await roomData.runtimeCharacterMap.runtime.stop();
         }
 
-        const runtime = new AgentRuntime({
-            character: processedCharacter,
-            databaseAdapter: this.options.adapter,
-            token: this.options.apiKey,
-            modelProvider: this.options.provider as ModelProviderName,
-            cacheManager: new CacheManager(
-                new DbCacheAdapter(
-                    this.options.adapter,
-                    generatePersonalityHash(character.options) as any,
-                ),
-            ),
-        });
-
-        roomData.runtimeCharacterMap.runtime = runtime;
-        await roomData.runtimeCharacterMap.runtime.initialize();
+        roomData.runtimeCharacterMap = charMap;
     }
 
     async sendToConversation(
