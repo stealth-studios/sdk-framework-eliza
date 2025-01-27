@@ -4,7 +4,6 @@ import {
     CacheManager,
     Clients,
     composeContext,
-    configureSettings,
     Content,
     DatabaseAdapter,
     DbCacheAdapter,
@@ -190,9 +189,6 @@ interface ElizaFrameworkOptions {
     provider: ModelProviderUnion;
     model: string;
     apiKey: string;
-    elizaConfig: {
-        [key: string]: string | undefined;
-    };
 }
 
 let initialized = false;
@@ -231,11 +227,6 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
         }
 
         this.options.adapter.init();
-        configureSettings({
-            [this.options.provider.toUpperCase() + "_API_KEY"]:
-                this.options.apiKey,
-            ...this.options.elizaConfig,
-        });
         initialized = true;
     }
 
