@@ -26,6 +26,7 @@ import {
 } from "@stealthstudios/sdk-core";
 import crypto from "crypto";
 import { JSONSchemaToZod } from "@dmitryrechkin/json-schema-to-zod";
+import { z } from "zod";
 
 function generatePersonalityHash(data: any) {
     const payload = JSON.stringify(data);
@@ -230,44 +231,51 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
     }
 
     validateCharacter(character: any) {
-        const requiredFields = [
-            "name",
-            "bio",
-            "lore",
-            "knowledge",
-            "topics",
-            "adjectives",
-            "style",
-            "messageExamples",
-            "functions",
-        ];
-        for (const field of requiredFields) {
-            if (!character[field]) {
-                throw new Error(`Character ${field} is required`);
-            }
-        }
+        const characterSchema = z.object({
+            name: z.string().nonempty(),
+            bio: z.array(z.string()).nonempty(),
+            lore: z.array(z.string()).nonempty(),
+            knowledge: z.array(z.string()).nonempty(),
+            topics: z.array(z.string()).nonempty(),
+            adjectives: z.array(z.string()).nonempty(),
+            style: z.array(z.string()).nonempty(),
+            messageExamples: z.array(
+                z.array(
+                    z.object({
+                        user: z.string(),
+                        content: z.string(),
+                    }),
+                ),
+            ),
+            functions: z.array(
+                z.object({
+                    name: z.string().nonempty(),
+                    description: z.string().nonempty(),
+                    similes: z.array(z.string()).nonempty(),
+                    examples: z
+                        .array(
+                            z.array(
+                                z.object({
+                                    user: z.string(),
+                                    content: z.string(),
+                                }),
+                            ),
+                        )
+                        .nonempty(),
+                    parameters: z.array(
+                        z.object({
+                            name: z.string(),
+                            description: z.string(),
+                            type: z.enum(["number", "boolean", "string"]),
+                        }),
+                    ),
+                }),
+            ),
+        });
 
-        if (
-            character.messageExamples.some(
-                (example: MessageExample[]) => example.length !== 2,
-            )
-        ) {
-            throw new Error("Character messageExamples must be a 2D array");
-        }
-
-        for (const func of character.functions) {
-            const requiredFields = [
-                "name",
-                "description",
-                "similes",
-                "examples",
-                "parameters",
-            ];
-            for (const field of requiredFields) {
-                if (!func[field]) {
-                    throw new Error(`Function ${field} is required`);
-                }
-            }
+        const parsedData = characterSchema.safeParse(character);
+        if (!parsedData.success) {
+            throw new Error(`Validation failed: ${parsedData.error}`);
         }
 
         return true;
@@ -664,6 +672,18 @@ export default class ElizaFramework extends Framework<ElizaFrameworkOptions> {
                         message: string;
                         parameters: Record<string, any>;
                     };
+
+                    const mappedParams = Object.keys(
+                        respObject.parameters,
+                    ).reduce((acc: Record<string, any>, key) => {
+                        const paramName = func.parameters[parseInt(key)].name;
+                        if (paramName) {
+                            acc[paramName] = respObject.parameters[key];
+                        }
+                        return acc;
+                    }, {});
+
+                    respObject.parameters = mappedParams;
 
                     await callback({
                         action: func.name,

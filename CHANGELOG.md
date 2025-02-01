@@ -1,3 +1,11 @@
+# 1.1.7
+
+- Fix bug during parameter mapping
+
+# 1.1.6
+
+- Add better validation for the character schema through zod
+
 # 1.1.3
 
 - Remove `model` option as it is redundant, environment variables are now used instead
