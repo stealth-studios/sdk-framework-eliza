@@ -1,3 +1,7 @@
+# 1.1.3
+
+- Remove `model` option as it is redundant, environment variables are now used instead
+
 # 1.1.2
 
 - Remove `elizaConfig` configuration option - this was causing issues with Eliza, so we should just use environment variables instead

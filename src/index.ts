@@ -187,7 +187,6 @@ class ElizaConversation extends Conversation {
 interface ElizaFrameworkOptions {
     adapter: DatabaseAdapter & IDatabaseCacheAdapter;
     provider: ModelProviderUnion;
-    model: string;
     apiKey: string;
 }
 
